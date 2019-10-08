@@ -1,0 +1,95 @@
+<!doctype html>
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Quick Pick</title>
+
+	<style type="text/css">
+
+  </style>
+</head>
+
+<body>
+  
+  <p id="preSort"></p>
+
+  <p id="postSort"></p>
+
+  <form id="guesses">
+    <input type="text" name="guesses" placeholder="5 Guesses">
+    <input type="text" name="lucky guess" placeholder="Lucky Ball">
+    <input type="button" name="submit" value="Submit" onclick="payout()">
+  </form>
+
+  <h1 id="payout"></h1>
+
+  <script type="text/javascript">
+    var nums = [];
+ 
+    for (var i=0 ; i < 5 ; i++){
+      nums[nums.length] = Math.round((Math.random() * 48) + .5);
+    }
+
+    var luckyBall = Math.round((Math.random() * 18) + .5);
+
+    var out = "";
+
+    for (var i = 0 ; i < nums.length ; i++){
+      out += (nums[i] + " ");
+    }
+
+    out += luckyBall;
+
+    document.getElementById('preSort').innerHTML = out;
+
+    nums.sort(function(a, b){return a-b});
+
+    out = "";
+
+    for (var i = 0 ; i < nums.length ; i++){
+      out += (nums[i] + " ");
+    }
+
+    out += luckyBall;
+
+    document.getElementById('postSort').innerHTML = out;
+
+
+
+function payout() {
+  
+  var prizes = ["$0", "$0", "$3", "$20", "$200",
+                "$25,000 a YEAR for LIFE!", "$4", "$6",
+                "$25", "$150", "$5,000", "$7,000 a WEEK for LIFE"]
+
+  // Get guesses from form
+  var guesses = document.getElementById('guesses').elements[0].value.split(" ");
+  var luckyGuess = document.getElementById('guesses').elements[1].value;
+
+  var count = 0;
+
+  var compared = nums.slice(0);
+
+  for (var i = 0; i < guesses.length; i++) {
+    for (var j = 0; j < compared.length; j++) {
+      if(guesses[i]==compared[j]){
+        count++;
+        compared.splice(j,1);
+        j--;
+      }
+    }
+  }
+
+  if(luckyGuess == luckyBall)
+    count += 6;
+
+  document.getElementById('payout').innerHTML = prizes[count];
+}
+
+
+
+
+  </script>
+</body>
+</html>

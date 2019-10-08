@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+	<title>Hot Dog</title>
+
+	<style type="text/css">
+
+  </style>
+
+  	<script type="text/javascript">
+		var menu = {hotDogs:3.25, frenchFries:2.00, drinks:1.50}
+		var order = {hotDogs:0, frenchFries:0, drinks:0}
+		var discount = false;
+		
+		function calculateCost(){
+			var quantities = document.getElementById('order').elements
+
+			order.hotDogs = quantities[0].value
+			order.frenchFries = quantities[1].value
+			order.drinks = quantities[2].value
+
+			var subtotal = (order.hotDogs * menu.hotDogs) + 
+					   (order.frenchFries * menu.frenchFries) +
+					   (order.drinks * menu.drinks)
+
+			if(subtotal > 20){
+				discount = true;
+				subtotal *= .9;
+				subtotal = Math.round(subtotal *100)/100
+			}
+
+
+			 var tax = Math.round(subtotal * 0.0625 *100)/100
+
+			 var total = subtotal + tax
+
+			document.getElementById('summary').innerHTML = 
+				  "Hotdogs: " + order.hotDogs + "<br>" +
+				  "French Fries: " + order.frenchFries + "<br>" +
+				  "Drinks: " + order.drinks + "<br>"
+
+			if(discount){
+				document.getElementById('summary').innerHTML +=
+				"Total before discount: " + Math.round(subtotal/9 * 10 *100) / 100 + "<br>" +
+				"Discount: " + Math.round(subtotal/9 *100) /100 + "<br>" +
+				"Subtotal: " + subtotal + "<br>"
+			}
+
+			else {
+				document.getElementById('summary').innerHTML +=
+				"Subtotal: " + subtotal + "<br>"
+			}
+
+			document.getElementById('summary').innerHTML +=
+			"Tax: " + tax + "<br>" +
+			"Total: " + total + "<br>"
+				  
+
+		}
+	</script>
+
+</head>
+
+<body>
+
+	<form id="order">
+		# of hotdogs: <input type="number" name="hotdogs"> <br>
+		# of french fries: <input type="number" name="frenchfries"> <br>
+		# of drinks: <input type="number" name="drinks"> <br>
+		<input type="button" name="order" value="Order" onclick="calculateCost()">
+	</form>
+
+	<p id="summary"></p>
+
+ 
+ </body>
+ </html>
